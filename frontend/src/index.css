@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 170 50% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 170 50% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 170 50% 5%;
+    --primary: 168 76% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 170 20% 96%;
+    --secondary-foreground: 170 50% 10%;
+    --muted: 170 15% 95%;
+    --muted-foreground: 170 20% 40%;
+    --accent: 168 76% 26%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 170 20% 90%;
+    --input: 170 20% 90%;
+    --ring: 168 76% 26%;
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 170 50% 5%;
+    --foreground: 0 0% 98%;
+    --card: 170 40% 8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 170 40% 8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 168 76% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 170 30% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 170 30% 15%;
+    --muted-foreground: 170 20% 60%;
+    --accent: 168 76% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 170 30% 20%;
+    --input: 170 30% 20%;
+    --ring: 168 76% 42%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50 transition-colors;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary/20 text-primary;
+}
+
+/* Focus visible */
+:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Card hover effect */
+.card-hover {
+  @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(168 76% 35%) 100%);
+}
+
+.gradient-subtle {
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+}
+
+/* Glass effect */
+.glass {
+  @apply bg-white/80 dark:bg-black/50 backdrop-blur-xl;
+}
+
+/* Stats card */
+.stats-card {
+  @apply relative overflow-hidden rounded-xl border bg-card p-6 shadow-sm;
+}
+
+.stats-card::before {
+  content: '';
+  @apply absolute inset-0 opacity-5;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, transparent 60%);
+}
+

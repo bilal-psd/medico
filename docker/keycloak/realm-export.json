@@ -1,0 +1,167 @@
+{
+  "realm": "medico",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Full system administrator access"
+      },
+      {
+        "name": "doctor",
+        "description": "Doctor role - Patient care, prescriptions, lab orders"
+      },
+      {
+        "name": "pharmacist",
+        "description": "Pharmacist role - Pharmacy operations"
+      },
+      {
+        "name": "lab_technician",
+        "description": "Lab technician role - Laboratory operations"
+      },
+      {
+        "name": "billing_staff",
+        "description": "Billing staff role - Billing operations"
+      },
+      {
+        "name": "receptionist",
+        "description": "Receptionist role - Patient registration, appointments"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@medico.local",
+      "firstName": "System",
+      "lastName": "Administrator",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"]
+    },
+    {
+      "username": "doctor",
+      "enabled": true,
+      "email": "doctor@medico.local",
+      "firstName": "John",
+      "lastName": "Doctor",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "doctor123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["doctor"]
+    },
+    {
+      "username": "pharmacist",
+      "enabled": true,
+      "email": "pharmacist@medico.local",
+      "firstName": "Jane",
+      "lastName": "Pharmacist",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "pharmacist123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["pharmacist"]
+    },
+    {
+      "username": "lab_tech",
+      "enabled": true,
+      "email": "labtech@medico.local",
+      "firstName": "Bob",
+      "lastName": "Technician",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "labtech123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["lab_technician"]
+    },
+    {
+      "username": "billing",
+      "enabled": true,
+      "email": "billing@medico.local",
+      "firstName": "Alice",
+      "lastName": "Billing",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "billing123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["billing_staff"]
+    },
+    {
+      "username": "receptionist",
+      "enabled": true,
+      "email": "receptionist@medico.local",
+      "firstName": "Carol",
+      "lastName": "Receptionist",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "receptionist123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["receptionist"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "medico-frontend",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost:3000/*",
+        "http://localhost:80/*",
+        "http://localhost/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:80",
+        "http://localhost"
+      ],
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    },
+    {
+      "clientId": "medico-backend",
+      "enabled": true,
+      "bearerOnly": true,
+      "protocol": "openid-connect"
+    }
+  ],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';"
+  }
+}
+

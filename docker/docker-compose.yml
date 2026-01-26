@@ -1,0 +1,93 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: medico-postgres
+    environment:
+      POSTGRES_DB: medico
+      POSTGRES_USER: medico
+      POSTGRES_PASSWORD: medico_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - medico-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medico -d medico"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Keycloak IAM
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: medico-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/medico
+      KC_DB_USERNAME: medico
+      KC_DB_PASSWORD: medico_password
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8180
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+    command: start-dev --import-realm
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - medico-network
+
+  # Backend - Spring Boot Application
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    container_name: medico-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: medico
+      DB_USERNAME: medico
+      DB_PASSWORD: medico_password
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/medico
+      KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/medico/protocol/openid-connect/certs
+    ports:
+      - "8081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    networks:
+      - medico-network
+
+  # Frontend - React Application
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    container_name: medico-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - medico-network
+
+networks:
+  medico-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
