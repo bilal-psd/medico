@@ -39,6 +39,22 @@ A comprehensive hospital management system built with modern technologies.
 - Role-based access control
 - Dashboard with key metrics
 
+### Feature Matrix
+
+| Feature | Status | Notes |
+| --- | --- | --- |
+| Patient registration & demographics | ✅ | Patients CRUD, metadata, schema/indices, backend services & DTOs fully wired. |
+| Appointment scheduling | ✅ | Controllers/services/repositories plus `AppointmentsPage` exist. |
+| EHR (medical records) | ✅ | Medical record table, service, and frontend patient notes. |
+| Prescription workflow | ⚠️ Partial | Backend handles creation, numbering, statuses, dispensing; frontend lacks creation UI yet. |
+| Medication catalog | ✅ | Medications table/DTOs/services and frontend catalog showing `requiresPrescription`. |
+| Inventory & stock management | ✅ | Inventory table, repositories, and `InventoryPage`. |
+| Prescription dispensing | ✅ | Dispensing service enforces rules and updates prescription status. |
+| Inventory reports & alerts | ⚠️ Partial | Schema supports statuses/alerts but no dedicated report UI yet. |
+| Lab test ordering & results | ✅ | Lab controllers/services/orders/results + `LaboratoryPage`. |
+| Invoicing & payments | ✅ | Invoice/payment entities, controllers, reporting service. |
+| Administration & RBAC | ✅ | Keycloak integration, `SecurityConfig`, audit logs, dashboard stats. |
+
 ## Getting Started
 
 ### Prerequisites
